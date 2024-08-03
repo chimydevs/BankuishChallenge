@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -25,7 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.chimy.bankuishchallenge.viewmodel.MainViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -35,59 +39,75 @@ fun MainScreen(
     val loading by viewModel.loading.collectAsState()
     val error by viewModel.error.collectAsState()
 
+    // estado pulltorefresh
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = loading,
+        onRefresh = { viewModel.fetchRepositories() }
+    )
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("GitHub Repositories") })
         }
     ) { innerPadding ->
-        if (loading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding), contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator() //indicador
-            }
-        } else if (error != null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text ( text = "Error: $error",
-                style = MaterialTheme.typography.bodyLarge
-                )
-            }
-
-
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                items(repositories) { repo ->
-                    Card(
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .pullRefresh(pullRefreshState) // Aplicar Pull-to-Refresh
+        ) {
+            when {
+                loading -> {
+                    Text(
+                        text = "Loading...",
                         modifier = Modifier
-                            .padding(8.dp)
-                            .clickable {
-                                navController.navigate("details/${repo.name}")
-                            }
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
+                error != null -> {
+                    Text(
+                        text = "Error: $error",
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
+                    )
+                }
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(innerPadding)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(text = repo.name, style = MaterialTheme.typography.titleMedium)
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(
-                                text = repo.owner.login,
-                                style = MaterialTheme.typography.bodyMedium
-                            )
+                        items(repositories) { repo ->
+                            Card(
+                                modifier = Modifier
+                                    .padding(8.dp)
+                                    .clickable {
+                                        navController.navigate("details/${repo.name}")
+                                    }
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp)
+                                ) {
+                                    Text(text = repo.name, style = MaterialTheme.typography.titleMedium)
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(text = repo.owner.login, style = MaterialTheme.typography.bodyMedium)
+                                }
+                            }
                         }
                     }
                 }
             }
+
+            PullRefreshIndicator(
+                refreshing = loading,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
         }
     }
 }
+
+
+

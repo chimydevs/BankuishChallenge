@@ -21,7 +21,6 @@ fun SetupNavGraph(navController: NavHostController, viewModel: MainViewModel) {
             if (repo != null) {
                 DetailScreen(navController = navController, repo = repo)
             } else {
-                // Manejo de error: puedes mostrar una pantalla de error o un mensaje aquí
                 Text(text = "Repository not found")
             }
         }

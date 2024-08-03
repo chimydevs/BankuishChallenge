@@ -1,7 +1,6 @@
 package com.chimy.bankuishchallenge.ui
 
 
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,21 +11,35 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.chimy.bankuishchallenge.data.network.RetrofitClient
-import com.chimy.bankuishchallenge.data.repository.Repository
+import com.chimy.bankuishchallenge.di.appModule
 import com.chimy.bankuishchallenge.ui.theme.BankuishChallengeTheme
 import com.chimy.bankuishchallenge.viewmodel.MainViewModel
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startKoin { //iniciar koin
+            modules(appModule) //llamando al modulo
+        }
+
         setContent {
             BankuishChallengeTheme {
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     SetupApp()
                 }
             }
         }
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()//esto detiene koin cuando se destruye la actividad
+        stopKoin()
     }
 }
 
@@ -34,11 +47,10 @@ class MainActivity : ComponentActivity() {
 fun SetupApp() {
     val navController = rememberNavController()
 
-    // Crear el ViewModel manualmente si no usas Koin
-    val repository = Repository(RetrofitClient.apiService)
-    val viewModel = MainViewModel(repository)
 
-    // Llamar a fetchRepositories al iniciar
+    val viewModel : MainViewModel = koinViewModel()
+
+
     LaunchedEffect(Unit) {
         viewModel.fetchRepositories()
     }

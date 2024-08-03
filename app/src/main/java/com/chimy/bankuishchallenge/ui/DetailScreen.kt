@@ -1,11 +1,14 @@
 package com.chimy.bankuishchallenge.ui
 
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,19 +41,34 @@ fun DetailScreen(
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primary
     ) { innerPadding ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .wrapContentSize()
+                .wrapContentWidth()
+                .wrapContentHeight()
                 .padding(innerPadding)
                 .padding(16.dp)
+                .background(MaterialTheme.colorScheme.secondary)
         ) {
-            Text(text = "Repository Name: ${repo.name}", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "Repository Name: ${repo.name}",
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Owner: ${repo.owner.login}", style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = "Owner: ${repo.owner.login}",
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSecondary
+            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.chimy.bankuishchallenge.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,11 +15,13 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,14 +50,21 @@ fun MainScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("GitHub Repositories") })
+            TopAppBar(
+                title = { Text("GitHub Repositories") },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
+            )
         }
     ) { innerPadding ->
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
                 .pullRefresh(pullRefreshState) // Aplicar Pull-to-Refresh
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(innerPadding)
+
         ) {
             when {
                 loading -> {
@@ -65,6 +75,7 @@ fun MainScreen(
                             .padding(innerPadding)
                     )
                 }
+
                 error != null -> {
                     Text(
                         text = "Error: $error",
@@ -73,6 +84,7 @@ fun MainScreen(
                             .padding(innerPadding)
                     )
                 }
+
                 else -> {
                     LazyColumn(
                         modifier = Modifier
@@ -81,6 +93,9 @@ fun MainScreen(
                     ) {
                         items(repositories) { repo ->
                             Card(
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.secondary
+                                ),
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .clickable {
@@ -90,9 +105,15 @@ fun MainScreen(
                                 Column(
                                     modifier = Modifier.padding(16.dp)
                                 ) {
-                                    Text(text = repo.name, style = MaterialTheme.typography.titleMedium)
+                                    Text(
+                                        text = repo.name,
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
                                     Spacer(modifier = Modifier.height(4.dp))
-                                    Text(text = repo.owner.login, style = MaterialTheme.typography.bodyMedium)
+                                    Text(
+                                        text = repo.owner.login,
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
                                 }
                             }
                         }
@@ -103,11 +124,10 @@ fun MainScreen(
             PullRefreshIndicator(
                 refreshing = loading,
                 state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 100.dp)
             )
         }
     }
 }
-
-
-

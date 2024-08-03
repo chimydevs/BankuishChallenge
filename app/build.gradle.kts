@@ -88,4 +88,9 @@ dependencies {
     //koin
     implementation("io.insert-koin:koin-android:3.4.0")
     implementation("io.insert-koin:koin-androidx-compose:3.4.0")
+
+    //fuentes
+    implementation("androidx.compose.material:material:1.6.8")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
+    implementation("androidx.compose.ui:ui-text-google-fonts:1.6.8")
 }

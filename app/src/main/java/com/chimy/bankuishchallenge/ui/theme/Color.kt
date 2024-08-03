@@ -9,3 +9,8 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+
+val Green200 = Color(0xFFB9FBC0) // un tono claro del verde
+val Green500 = Color(0xFF28EB9B) // el verde principal
+val Green700 = Color(0xFF1B9A73) // un tono más oscuro del verde

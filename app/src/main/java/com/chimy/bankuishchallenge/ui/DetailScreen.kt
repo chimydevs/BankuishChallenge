@@ -4,11 +4,11 @@ package com.chimy.bankuishchallenge.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,7 +52,7 @@ fun DetailScreen(
         Column(
             modifier = Modifier
                 .wrapContentSize()
-                .wrapContentWidth()
+                .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(innerPadding)
                 .padding(16.dp)

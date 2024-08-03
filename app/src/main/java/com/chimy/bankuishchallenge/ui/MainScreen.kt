@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -60,10 +61,10 @@ fun MainScreen(
     ) { innerPadding ->
         Box(
             modifier = Modifier
-                .pullRefresh(pullRefreshState) // Aplicar Pull-to-Refresh
+                .pullRefresh(pullRefreshState)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(innerPadding)
+                .padding(top = 5.dp)
 
         ) {
             when {
@@ -97,6 +98,7 @@ fun MainScreen(
                                     containerColor = MaterialTheme.colorScheme.secondary
                                 ),
                                 modifier = Modifier
+                                    .fillMaxWidth()
                                     .padding(8.dp)
                                     .clickable {
                                         navController.navigate("details/${repo.name}")

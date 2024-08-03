@@ -4,12 +4,12 @@ import com.chimy.bankuishchallenge.data.model.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface GitHubApiService{
+interface GitHubApiService{ //interfaz para llamadas
     @GET("search/repositories")
     suspend fun getRepositories(
-        @Query("q") query: String,
-        @Query("perPage") perPage: Int,
-        @Query("page") page: Int,
+        @Query("q") query: String,//termino d ela busqueda
+        @Query("perPage") perPage: Int, //resultados
+        @Query("page") page: Int, //numero de pagina
     ): SearchResponse
 }
 

@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-    override fun onDestroy() {
+    override fun onDestroy() {//llamar al metodo
         super.onDestroy()//esto detiene koin cuando se destruye la actividad
         stopKoin()
     }
@@ -47,12 +47,10 @@ class MainActivity : ComponentActivity() {
 fun SetupApp() {
     val navController = rememberNavController()
 
-
-    val viewModel : MainViewModel = koinViewModel()
-
+    val viewModel : MainViewModel = koinViewModel() //viewmodel con koin
 
     LaunchedEffect(Unit) {
-        viewModel.fetchRepositories()
+        viewModel.fetchRepositories() //carga repos cuando inicia
     }
 
     SetupNavGraph(navController = navController, viewModel = viewModel)

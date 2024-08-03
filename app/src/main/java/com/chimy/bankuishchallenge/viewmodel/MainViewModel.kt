@@ -10,23 +10,27 @@ import kotlinx.coroutines.launch
 
 //viewmodel estado y logica de ui
 class MainViewModel(private val repository: Repository) : ViewModel() {
+
+    //lista de repositorios
     private val _repositories = MutableStateFlow<List<RepositoryModel>>(emptyList())
     val repositories: StateFlow<List<RepositoryModel>> get() = _repositories
 
+    //carga
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> get() = _loading
 
+    //mensaje de error
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
 
-    fun fetchRepositories() {
+    fun fetchRepositories() { //obtener lista de repositorios
         viewModelScope.launch {
             _loading.value = true
-            try {
+            try { //llamada al repo y obtencion de de datos
                 _repositories.value = repository.getRepositories("language:kotlin", 30, 1)
-            } catch (e: Exception) {
+            } catch (e: Exception) { //si hay un error
                 _error.value = e.message
-            } finally {
+            } finally { // termina la carga
                 _loading.value = false
             }
         }

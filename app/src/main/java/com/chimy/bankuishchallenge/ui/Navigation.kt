@@ -16,9 +16,11 @@ fun SetupNavGraph(navController: NavHostController, viewModel: MainViewModel) {
             MainScreen(navController = navController, viewModel = viewModel)
         }
         composable("details/{repoName}") { backStackEntry ->
+            //encuentra el nombre del repo
             val repoName = backStackEntry.arguments?.getString("repoName") ?: return@composable
+            //encuentra el repo en la lista
             val repo = viewModel.repositories.collectAsState().value.find { it.name == repoName }
-            if (repo != null) {
+            if (repo != null) { //si encuentra el repo en la lista muestra detalles
                 DetailScreen(navController = navController, repo = repo)
             } else {
                 Text(text = "Repository not found")

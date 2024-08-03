@@ -6,7 +6,7 @@ import com.chimy.bankuishchallenge.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
-val appModule = module {
+val appModule = module {// instancias
     single { RetrofitClient.apiService } //inyeccion de la api
 
     single { Repository(get()) } //repositorio

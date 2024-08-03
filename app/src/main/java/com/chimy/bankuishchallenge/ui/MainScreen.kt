@@ -127,7 +127,7 @@ fun MainScreen(
                 refreshing = loading,
                 state = pullRefreshState,
                 modifier = Modifier
-                    .align(Alignment.TopCenter)
+                    .align(Alignment.TopCenter) // centra el indicador
                     .padding(top = 100.dp)
             )
         }

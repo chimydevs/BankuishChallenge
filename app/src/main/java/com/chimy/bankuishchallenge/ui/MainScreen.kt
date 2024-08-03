@@ -18,13 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.chimy.bankuishchallenge.data.network.RetrofitClient
-import com.chimy.bankuishchallenge.data.repository.Repository
-import com.chimy.bankuishchallenge.ui.theme.BankuishChallengeTheme
 import com.chimy.bankuishchallenge.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +55,7 @@ fun MainScreen(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(innerPadding) // Aplicar padding
+                    .padding(innerPadding)
             ) {
                 items(repositories) { repo ->
                     Card(
@@ -81,16 +76,5 @@ fun MainScreen(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    BankuishChallengeTheme {
-        MainScreen(
-            navController = rememberNavController(),
-            viewModel = MainViewModel(Repository(RetrofitClient.apiService))
-        )
     }
 }

@@ -8,7 +8,9 @@ object RetrofitClient {
 
     val apiService: GitHubApiService by lazy {
         Retrofit.Builder()
-            .baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
             .create(GitHubApiService::class.java)
     }
 }

@@ -9,23 +9,23 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 //viewmodel estado y logica de ui
-class MainViewModel(private val repository: Repository): ViewModel() {
+class MainViewModel(private val repository: Repository) : ViewModel() {
     private val _repositories = MutableStateFlow<List<RepositoryModel>>(emptyList())
     val repositories: StateFlow<List<RepositoryModel>> get() = _repositories
 
     private val _loading = MutableStateFlow(false)
     val loading: StateFlow<Boolean> get() = _loading
 
-    private val _error = MutableStateFlow(null)
+    private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> get() = _error
 
-    fun fetchRepositories(){
+    fun fetchRepositories() {
         viewModelScope.launch {
             _loading.value = true
             try {
-                _repositories.value = repository.getRepositories("language:kotlin",30,1)
-            }catch (e: Exception){
-                _error.value = e.message as Nothing?
+                _repositories.value = repository.getRepositories("language:kotlin", 30, 1)
+            } catch (e: Exception) {
+                _error.value = e.message
             } finally {
                 _loading.value = false
             }
